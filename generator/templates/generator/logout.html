@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi Logout | KreatifAI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eff6ff, #e0e7ff);
+            color: #1f2937;
+        }
+
+        .confirm-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 32px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 12px 35px rgba(30, 64, 175, 0.12);
+            text-align: center;
+        }
+
+        .confirm-card h2 {
+            margin-top: 0;
+            color: #172554;
+        }
+
+        .confirm-card p {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .actions form,
+        .actions a {
+            flex: 1;
+        }
+
+        .actions button,
+        .actions a {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .confirm-button {
+            background: #dc2626;
+            color: white;
+        }
+
+        .confirm-button:hover {
+            background: #b91c1c;
+        }
+
+        .cancel-button {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .cancel-button:hover {
+            background: #cbd5e1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="confirm-card">
+        <h2>Konfirmasi Logout</h2>
+
+        <p>
+            Apakah kamu yakin ingin keluar dari akun KreatifAI?
+        </p>
+
+        <div class="actions">
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="confirm-button">
+                    Ya, Logout
+                </button>
+            </form>
+
+            <a href="{% url 'dashboard' %}" class="cancel-button">
+                Batal
+            </a>
+        </div>
+    </div>
+</body>
+</html>

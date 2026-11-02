@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | KreatifAI</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 230px;
+            background: #172554;
+            color: white;
+            padding: 28px 18px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 0 0 8px;
+        }
+
+        .brand span { color: #93c5fd; }
+
+        .subtitle {
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-bottom: 35px;
+        }
+
+        .menu {
+            display: block;
+            padding: 13px 14px;
+            margin: 8px 0;
+            border-radius: 8px;
+            color: #e2e8f0;
+            text-decoration: none;
+        }
+
+        .menu:hover, .menu.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        main {
+            flex: 1;
+            padding: 32px;
+            min-width: 0;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            margin: 0 0 8px;
+            font-size: 27px;
+        }
+
+        .muted { color: #64748b; }
+
+        .button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 12px 17px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+
+        .stat, .panel, .project {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat h2 {
+            font-size: 28px;
+            margin: 15px 0 5px;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .section-title h2 { margin: 0; font-size: 20px; }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .project-icon {
+            height: 130px;
+            display: grid;
+            place-items: center;
+            background: #eff6ff;
+            border-radius: 8px;
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .project h3 { margin: 0 0 8px; }
+
+        .empty {
+            text-align: center;
+            padding: 32px 12px;
+            color: #64748b;
+        }
+
+        @media (max-width: 760px) {
+            .layout { flex-direction: column; }
+            .sidebar { width: 100%; }
+            .subtitle { margin-bottom: 15px; }
+            main { padding: 20px; }
+            .stats { grid-template-columns: 1fr; }
+            .projects { grid-template-columns: 1fr; }
+            .topbar { align-items: flex-start; flex-direction: column; }
+        }
+        
+.logout-button {
+    width: 100%;
+    padding: 12px 16px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background: #fecaca;
+}
+
+    </style>
+</head>
+
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="brand">Kreatif<span>AI</span></div>
+        <div class="subtitle">AI Packaging & Label Design</div>
+        
+
+<form method="POST"
+      action="{% url 'logout' %}"
+      onsubmit="return confirm('Apakah kamu yakin ingin logout dari KreatifAI?');">
+    {% csrf_token %}
+    <button type="submit" class="logout-button">
+        Logout
+    </button>
+</form>
+
+
+        <nav>
+            <a href="{% url 'dashboard' %}" class="menu active">⌂ &nbsp; Beranda</a>
+            <a href="#" class="menu">▣ &nbsp; Desain Saya</a>
+            <a href="#" class="menu">◷ &nbsp; Riwayat</a>
+            <a href="#" class="menu">♙ &nbsp; Profil</a>
+        </nav>
+    </aside>
+
+    <main>
+        <div class="topbar">
+            <div>
+                <h1>Dashboard</h1>
+                <div class="muted">Halo, User! Selamat datang di KreatifAI.</div>
+            </div>
+
+            <a href="{% url 'home' %}" class="button">＋ Buat Desain</a>
+        </div>
+
+        <section class="stats">
+            <div class="stat">
+                <div class="muted">Total Desain</div>
+                <h2>0</h2>
+                <small>Desain yang dibuat</small>
+            </div>
+
+            <div class="stat">
+                <div class="muted">Desain Tersimpan</div>
+                <h2>0</h2>
+                <small>Koleksi desain kamu</small>
+            </div>
+
+            <div class="stat">
+                <div class="muted">Status AI</div>
+                <h2 style="font-size:20px">Siap Dikembangkan</h2>
+                <small>Integrasi AI menyusul</small>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Proyek Terbaru</h2>
+                <a href="#" class="muted">Lihat semua</a>
+            </div>
+
+            <div class="projects">
+                <div class="project">
+                    <div class="project-icon">📦</div>
+                    <h3>Desain Kemasan</h3>
+                    <p class="muted">Buat konsep kemasan sesuai karakter produk.</p>
+                    <a href="{% url 'home' %}" class="button">Mulai Desain</a>
+                </div>
+
+                <div class="project">
+                    <div class="project-icon">🏷️</div>
+                    <h3>Desain Label</h3>
+                    <p class="muted">Rancang konsep label yang selaras dengan kemasan.</p>
+                    <a href="{% url 'home' %}" class="button">Mulai Desain</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</div>
+</body>
+</html>

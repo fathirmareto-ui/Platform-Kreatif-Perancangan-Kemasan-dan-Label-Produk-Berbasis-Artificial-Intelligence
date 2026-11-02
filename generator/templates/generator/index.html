@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Packaging Generator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 760px;
+            margin: 60px auto;
+            padding: 20px;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin: 8px 0 18px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 18px;
+            background: #eff6ff;
+            border-radius: 8px;
+        }
+
+        .result img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+        
+.back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 16px;
+    background: #e5e7eb;
+    color: #1f2937;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.back-button:hover {
+    background: #d1d5db;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        
+<a href="{% url 'dashboard' %}" class="back-button">
+    ← Kembali ke Dashboard
+</a>
+
+<h1>AI Packaging Generator</h1>
+
+        <h1>AI Packaging Generator</h1>
+        <p>Platform Kreatif Perancangan Kemasan dan Label Produk Berbasis AI</p>
+
+{% if errors %}
+    <div class="error">
+        {% for item in errors %}
+            <p>{{ item }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="product_name">Nama Produk</label>
+            <input
+                type="text"
+                id="product_name"
+                name="product_name"
+                placeholder="Contoh: Parfum Aquaris"
+                value="{{ product_name|default:'' }}"
+                required
+            >
+
+            <label for="description">Deskripsi Produk</label>
+            <textarea
+                id="description"
+                name="description"
+                rows="4"
+                placeholder="Jelaskan produk kamu..."
+                required
+            >{{ description|default:'' }}</textarea>
+
+            <label for="theme">Tema Desain</label>
+        <select id="theme" name="theme" required>
+    <option value="Minimalis">Minimalis</option>
+    <option value="Premium">Premium</option>
+    <option value="Modern">Modern</option>
+    <option value="Natural">Natural</option>
+</select>
+
+<!-- Jenis Kemasan -->
+<label for="packaging_type">Jenis Kemasan</label>
+
+<select name="packaging_type" id="packaging_type" required>
+    <option value="">-- Pilih Jenis Kemasan --</option>
+    <option value="standing_pouch">Standing Pouch</option>
+    <option value="box">Kotak / Box</option>
+    <option value="bottle">Botol</option>
+    <option value="sachet">Sachet</option>
+    <option value="jar">Jar / Toples</option>
+    <option value="can">Kaleng</option>
+</select>
+
+<!-- Upload Foto Produk -->
+<label for="product_image">Foto Produk</label>
+
+<input
+    type="file"
+    id="product_image"
+    name="product_image"
+    accept="image/*"
+    required
+>
+            >
+
+            <button type="submit">Proses Data Produk</button>
+        </form>
+
+      {% if submitted %}
+    <div class="result">
+        <h2>Data Produk Berhasil Diterima!</h2>
+
+        <p><strong>Nama Produk:</strong> {{ product_name }}</p>
+        <p><strong>Deskripsi:</strong> {{ description }}</p>
+        <p><strong>Tema Desain:</strong> {{ theme }}</p>
+
+        {% if image_url %}
+            <p><strong>Foto Produk:</strong></p>
+            <img src="{{ image_url }}" alt="Foto produk">
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if ai_submitted %}
+    <div style="margin-top: 25px; padding: 20px; background: #eef6ff; border-radius: 12px;">
+
+<h2>Hasil Desain Kemasan AI</h2>
+
+<p style="color: green;">
+    Desain berhasil dibuat menggunakan ComfyUI!
+</p>
+
+{% if generated_images %}
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+
+        {% for image in generated_images %}
+            <div style="text-align: center;">
+                <img
+                    src="{{ image }}"
+                    alt="Hasil Desain AI"
+                    style="width: 100%; max-width: 300px; border-radius: 12px;"
+                >
+
+                <br><br>
+
+                <a
+                    href="{{ image }}"
+                    download
+                    style="display: inline-block; padding: 12px 20px; background: #2563eb; color: white; text-decoration: none; border-radius: 8px;"
+                >
+                    Download Desain {{ forloop.counter }}
+                </a>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endif %}
+
+</div>
+{% endif %}
+
